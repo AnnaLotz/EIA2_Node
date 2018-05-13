@@ -33,8 +33,8 @@ namespace Server {
         _response.setHeader("Access-Control-Allow-Origin", "*");
 
         _response.write("Ich habe dich gehört<br/>");
-        _response.write("Wert a: " + a);
-        _response.write("Wert b: " + b);
+        _response.write("Wert a: " + a + "br>");
+        _response.write("Wert b: " + b + "br>");
         _response.write("Das Ergebnis ist: " + (a + b));
 
         _response.end();
