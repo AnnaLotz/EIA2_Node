@@ -47,7 +47,7 @@ var Server;
         let _firstname = obj.firstname;
         let matrikel = obj.matrikel.toString();
         let _age = obj.age;
-        let _studiengang = obj.studiengang;
+        let _curriculum = obj.curriculum;
         let _gender = obj.gender;
         let studi;
         studi = {
@@ -55,7 +55,7 @@ var Server;
             firstname: _firstname,
             matrikel: parseInt(matrikel),
             age: _age,
-            studiengang: _studiengang,
+            curriculum: _curriculum,
             gender: _gender
         };
         studiHomoAssoc[matrikel] = studi;
@@ -66,8 +66,9 @@ var Server;
         for (let matrikel in studiHomoAssoc) {
             let studi = studiHomoAssoc[matrikel];
             let line = matrikel + ": ";
-            line += studi.studiengang + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
-            line += studi.gender ? "(M)" : "(F)";
+            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(m)" : "(f), ";
+            line += studi.curriculum;
             _response.write(line + "\n");
         }
     }
@@ -75,12 +76,13 @@ var Server;
         let studi = studiHomoAssoc[query["searchFor"]];
         if (studi) {
             let line = query["searchFor"] + ": ";
-            line += studi.studiengang + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
-            line += studi.gender ? "(M)" : "(F)";
+            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(m)" : "(f), ";
+            line += studi.curriculum;
             _response.write(line);
         }
         else {
-            _response.write("No Match");
+            _response.write("No Student found");
         }
     }
     function error() {
