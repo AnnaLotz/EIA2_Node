@@ -74,15 +74,25 @@ var Server;
     }
     function search(query, _response) {
         let studi = studiHomoAssoc[query["searchFor"]];
-        if (studi) {
+        /* if (studi) {
+            let line: string = query["searchFor"] + ": ";
+            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(m)" : "(f), ";
+            line += studi.curriculum;
+            _response.write(line);
+        } else {
+            _response.write("No Student found");
+        }*/
+        if (typeof studi === "undefined") {
+            console.log("studi=undefined");
+            _response.write("No Student found");
+        }
+        else {
             let line = query["searchFor"] + ": ";
             line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(m)" : "(f), ";
             line += studi.curriculum;
             _response.write(line);
-        }
-        else {
-            _response.write("No Student found");
         }
     }
     function error() {

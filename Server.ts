@@ -102,7 +102,7 @@ namespace Server {
 
     function search(query: AssocStringString, _response: Http.ServerResponse): void {
         let studi: Studi = studiHomoAssoc[query["searchFor"]];
-        if (studi) {
+        /* if (studi) {
             let line: string = query["searchFor"] + ": ";
             line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(m)" : "(f), ";
@@ -110,6 +110,17 @@ namespace Server {
             _response.write(line);
         } else {
             _response.write("No Student found");
+        }*/
+        
+        if (typeof studi === "undefined") {
+            console.log("studi=undefined");
+            _response.write("No Student found");
+        } else {
+            let line: string = query["searchFor"] + ": ";
+            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(m)" : "(f), ";
+            line += studi.curriculum;
+            _response.write(line);
         }
     }
 
