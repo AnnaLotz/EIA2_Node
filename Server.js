@@ -84,10 +84,11 @@ var Server;
             _response.write("No Student found");
         }*/
         if (typeof studi === "undefined") {
-            console.log("studi=undefined");
+            alert("no student found");
             _response.write("No Student found");
         }
         else {
+            alert("student found");
             let line = query["searchFor"] + ": ";
             line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(m)" : "(f), ";
