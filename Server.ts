@@ -19,7 +19,7 @@ namespace Server {
         matrikel: number;
         age: number;
         gender: boolean;
-        studyPath: string;      //studyPath
+        curriculum: string;    
     }
 
     // Homogenes assoziatives Array, in dem der Matrikelnummer die Daten aus dem Interface Studi zugeodrnet werden
@@ -83,7 +83,7 @@ namespace Server {
         let matrikel: string = obj.matrikel.toString();
         let _age: number = obj.age;
         let _gender: boolean = obj.gender;
-        let _studyPath: string = obj.studyPath;
+        let _curriculum: string = obj.curriculum;
         let studi: Studi;
         studi = {
             firstname: _firstname,
@@ -91,7 +91,7 @@ namespace Server {
             matrikel: parseInt(matrikel),
             age: _age,
             gender: _gender,
-            studyPath: _studyPath
+            curriculum: _curriculum
         };
         studiHomoAssoc[matrikel] = studi;
         _response.write("Daten wurden gespeichert"); //Rückmeldung für den User
@@ -102,7 +102,7 @@ namespace Server {
         for (let matrikel in studiHomoAssoc) {
             let studi: Studi = studiHomoAssoc[matrikel];
             let line: string = matrikel + ": ";
-            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.curriculum + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             _response.write(line + "\n");
         }
@@ -112,7 +112,7 @@ namespace Server {
         let studi: Studi = studiHomoAssoc[query["searchFor"]];
         if (studi) {
             let line: string = query["searchFor"] + ": ";
-            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.curriculum + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             _response.write(line);
         } else {

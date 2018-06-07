@@ -54,7 +54,7 @@ var Server;
         let matrikel = obj.matrikel.toString();
         let _age = obj.age;
         let _gender = obj.gender;
-        let _studyPath = obj.studyPath;
+        let _curriculum = obj.curriculum;
         let studi;
         studi = {
             firstname: _firstname,
@@ -62,7 +62,7 @@ var Server;
             matrikel: parseInt(matrikel),
             age: _age,
             gender: _gender,
-            studyPath: _studyPath
+            curriculum: _curriculum
         };
         studiHomoAssoc[matrikel] = studi;
         _response.write("Daten wurden gespeichert"); //Rückmeldung für den User
@@ -72,7 +72,7 @@ var Server;
         for (let matrikel in studiHomoAssoc) {
             let studi = studiHomoAssoc[matrikel];
             let line = matrikel + ": ";
-            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.curriculum + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             _response.write(line + "\n");
         }
@@ -81,7 +81,7 @@ var Server;
         let studi = studiHomoAssoc[query["searchFor"]];
         if (studi) {
             let line = query["searchFor"] + ": ";
-            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.curriculum + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             _response.write(line);
         }
