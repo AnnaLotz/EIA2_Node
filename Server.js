@@ -9,19 +9,20 @@ const Http = require("http");
 const Url = require("url");
 var Server;
 (function (Server) {
-    // Homogenes assoziatives Array zur Speicherung einer Person unter der Matrikelnummer
+    // Homogenes assoziatives Array in dem die einzelnen Studenten mit ihrer Matrikelnummer gspeichert werden
     let studiHomoAssoc = {};
     let port = process.env.PORT;
     if (port == undefined)
-        port = 8200;
-    let server = Http.createServer((_request, _response) => {
-        _response.setHeader("content-type", "text/html; charset=utf-8");
-        _response.setHeader("Access-Control-Allow-Origin", "*");
-    });
+        port = 8100;
+    let server = Http.createServer();
+    server.addListener("listening", handleListen);
     server.addListener("request", handleRequest);
     server.listen(port);
+    function handleListen(_request, _response) {
+        _response.setHeader("content-type", "text/html; charset=utf-8");
+        _response.setHeader("Access-Control-Allow-Origin", "*");
+    }
     function handleRequest(_request, _response) {
-        console.log("Ich höre Stimmen!");
         let query = Url.parse(_request.url, true).query;
         console.log(query["command"]);
         if (query["command"]) {
@@ -41,63 +42,51 @@ var Server;
         }
         _response.end();
     }
+    //Daten des Studi werden als Objekte übergeben      
     function insert(query, _response) {
         let obj = JSON.parse(query["data"]);
-        let _name = obj.name;
         let _firstname = obj.firstname;
+        let _name = obj.name;
         let matrikel = obj.matrikel.toString();
         let _age = obj.age;
-        let _curriculum = obj.curriculum;
         let _gender = obj.gender;
+        let _studyPath = obj.studyPath;
         let studi;
         studi = {
-            name: _name,
             firstname: _firstname,
+            name: _name,
             matrikel: parseInt(matrikel),
             age: _age,
-            curriculum: _curriculum,
-            gender: _gender
+            gender: _gender,
+            studyPath: _studyPath
         };
         studiHomoAssoc[matrikel] = studi;
-        _response.write("Daten empfangen");
+        _response.write("Daten wurden gespeichert"); //Rückmeldung für den User
     }
     function refresh(_response) {
-        console.log(studiHomoAssoc);
+        //console.log(studiHomoAssoc);
         for (let matrikel in studiHomoAssoc) {
             let studi = studiHomoAssoc[matrikel];
             let line = matrikel + ": ";
-            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
-            line += studi.gender ? "(m)" : "(f), ";
-            line += studi.curriculum;
+            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(M)" : "(F)";
             _response.write(line + "\n");
         }
     }
     function search(query, _response) {
         let studi = studiHomoAssoc[query["searchFor"]];
-        /* if (studi) {
-            let line: string = query["searchFor"] + ": ";
-            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
-            line += studi.gender ? "(m)" : "(f), ";
-            line += studi.curriculum;
+        if (studi) {
+            let line = query["searchFor"] + ": ";
+            line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
+            line += studi.gender ? "(M)" : "(F)";
             _response.write(line);
-        } else {
-            _response.write("No Student found");
-        }*/
-        if (typeof studi === "undefined") {
-            alert("no student found");
-            _response.write("No Student found");
         }
         else {
-            alert("student found");
-            let line = query["searchFor"] + ": ";
-            line += studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
-            line += studi.gender ? "(m)" : "(f), ";
-            line += studi.curriculum;
-            _response.write(line);
+            _response.write("No match found");
         }
     }
     function error() {
-        alert("Error");
+        alert("error");
     }
 })(Server || (Server = {}));
 //# sourceMappingURL=Server.js.map
